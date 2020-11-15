@@ -1,8 +1,17 @@
+/**
+ * ガイダンスボーナス追加マクロ
+ * 使い方：
+ * 1.ガイダンスの対象とするアイコンを複数選択します。
+ * 2.マクロを実行します。
+ * 3.選択したアイコンのキャラクターの技能判定および能力値判定の修正値を加算します。
+ * 
+ * 既にガイダンスのボーナスを加算済みのアイコンを選択し、再度マクロを実行すると、上記で追加したボーナスを削除します。
+ */
+
 const iconPath = "icons/svg/windmill.svg";
 let effectOnMsg = " にガイダンスの修正を載せました。";
 let effectOffMsg = " からガイダンスの修正を削除しました。";
 
-//fixed declarations DO NOT MODIFY
 let d4 = "+1d4";
 let effected = false;
 

@@ -1,3 +1,4 @@
+// https://github.com/foundry-vtt-community/macros/tree/master/5eの内容をいったん持ってきた状態。
 /**
  * Monk Ki Point spender
  *
