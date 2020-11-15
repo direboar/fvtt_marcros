@@ -4,5 +4,4 @@
 * Typeをscriptに変更し、使いたいマクロをコピーペースとして保存する。
 
 # image
-![登録イメージ]]
-(https://user-images.githubusercontent.com/1270936/99184879-97759380-2789-11eb-84f7-455dedb02d90.png)
+![registMacro](https://user-images.githubusercontent.com/1270936/99184879-97759380-2789-11eb-84f7-455dedb02d90.png)
