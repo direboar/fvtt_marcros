@@ -1,7 +1,6 @@
 # FVTT用のマクロ作成用リポジトリ
-* 以下のリポジトリにあるマクロを、使いやすいように一部カスタマイズ。
-  https://github.com/foundry-vtt-community/macros/tree/master/5eの内容をいったん持ってきた状態
-* 自分たちが使いやすいものを追加。
+* [このリポジトリ](https://github.com/foundry-vtt-community/macros/tree/master/5e)にあるマクロを、使いやすいように一部カスタマイズ。
+* 自分が使いやすいものを追加。
 
 # 使い方
 * srcから、使いたいマクロを選ぶ
