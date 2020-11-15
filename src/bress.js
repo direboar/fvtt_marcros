@@ -1,10 +1,9 @@
-const blessIconPath = "icons/svg/regen.svg";
-let blessMsg = " にブレスの修正を載せました。";
-let endblessMsg = " からブレスの修正を削除しました。";
+const iconPath = "icons/svg/regen.svg";
+let effectOnMsg = " にブレスの修正を載せました。";
+let effectOffMsg = " からブレスの修正を削除しました。";
 
-//fixed declarations DO NOT MODIFY
-let Blessd4 = "+1d4";
-let bless = false;
+let d4 = "+1d4";
+let effected = false; //呪文の効果対象であるかどうか。
 
 const selectedTokens = getSelectedTokens();
 if (selectedTokens === undefined || selectedTokens.length === 0) {
@@ -12,13 +11,14 @@ if (selectedTokens === undefined || selectedTokens.length === 0) {
 } else {
   selectedTokens.forEach((token) => {
     const actor = token.actor;
-    bless = isBlessed(actor);
+console.log(token.data.effects)    
+    effected = isEffected(actor);
     // If not already bless
-    if (bless) {
-      const message = bressOff(token, actor);
+    if (effected) {
+      const message = effectOff(token, actor);
       chatMessage(message);
     } else {
-      const message = bressOn(token, actor);
+      const message = effectOn(token, actor);
       chatMessage(message);
     }
   });
@@ -40,56 +40,61 @@ function getBounses(actor) {
   return retVal;
 }
 
-function isBlessed(actor) {
+function isEffected(actor) {
   const bonuses = getBounses(actor);
   return (
-    bonuses.mwak.includes(Blessd4) &&
-    bonuses.rwak.includes(Blessd4) &&
-    bonuses.msak.includes(Blessd4) &&
-    bonuses.rsak.includes(Blessd4) &&
-    bonuses.save.includes(Blessd4)
+    bonuses.mwak.includes(d4) &&
+    bonuses.rwak.includes(d4) &&
+    bonuses.msak.includes(d4) &&
+    bonuses.rsak.includes(d4) &&
+    bonuses.save.includes(d4)
   );
 }
 
-function bressOn(token, actor) {
-  token.toggleEffect(blessIconPath);
+function effectOn(token, actor) {
+  if(!token.data.effects.includes(iconPath)){
+    token.toggleEffect(iconPath);
+  }
+  
   const bonuses = getBounses(actor);
 
   // anounce to chat
-  const chatMsg = `${actor.name} ${blessMsg}`;
+  const chatMsg = `${actor.name} ${effectOnMsg}`;
   // add bless bonus
   console.log("adding bless modifiers to global bonuses");
 
-  bonuses.mwak += Blessd4;
-  bonuses.rwak += Blessd4;
-  bonuses.msak += Blessd4;
-  bonuses.rsak += Blessd4;
-  bonuses.save += Blessd4;
+  bonuses.mwak += d4;
+  bonuses.rwak += d4;
+  bonuses.msak += d4;
+  bonuses.rsak += d4;
+  bonuses.save += d4;
   updateActor(actor, bonuses);
 
   return chatMsg;
 }
 
-function bressOff(token, actor) {
-  token.toggleEffect(blessIconPath);
+function effectOff(token, actor) {
+  if(token.data.effects.includes(iconPath)){
+    token.toggleEffect(iconPath);
+  }
+
   // anounce to chat
-  const chatMsg = `${actor.name} ${endblessMsg}`;
+  const chatMsg = `${actor.name} ${effectOffMsg}`;
   // remove bless bonus
   console.log("resetting global bonuses for bless");
   let bonuses = {};
-  bonuses.mwak = removeBlessModifier(actor.data.data.bonuses.mwak.attack);
-  bonuses.rwak = removeBlessModifier(actor.data.data.bonuses.rwak.attack);
-  bonuses.msak = removeBlessModifier(actor.data.data.bonuses.msak.attack);
-  bonuses.rsak = removeBlessModifier(actor.data.data.bonuses.rsak.attack);
-  bonuses.save = removeBlessModifier(actor.data.data.bonuses.abilities.save);
+  bonuses.mwak = removeBonus(actor.data.data.bonuses.mwak.attack);
+  bonuses.rwak = removeBonus(actor.data.data.bonuses.rwak.attack);
+  bonuses.msak = removeBonus(actor.data.data.bonuses.msak.attack);
+  bonuses.rsak = removeBonus(actor.data.data.bonuses.rsak.attack);
+  bonuses.save = removeBonus(actor.data.data.bonuses.abilities.save);
   updateActor(actor, bonuses);
 
   return chatMsg;
 }
 
-function removeBlessModifier(bonus){
-    // tmp = JSON.parse(JSON.stringify(actor.data.data.bonuses.abilities.save));
-    const length = bonus.indexOf(Blessd4);
+function removeBonus(bonus){
+    const length = bonus.indexOf(d4);
     return bonus.substring(0, length) + bonus.substring(length + 4, bonus.length);
 }
 

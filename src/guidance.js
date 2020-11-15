@@ -1,10 +1,10 @@
-const blessIconPath = "icons/svg/windmill.svg";
+const iconPath = "icons/svg/windmill.svg";
 let effectOnMsg = " にガイダンスの修正を載せました。";
 let effectOffMsg = " からガイダンスの修正を削除しました。";
 
 //fixed declarations DO NOT MODIFY
 let d4 = "+1d4";
-let bless = false;
+let effected = false;
 
 const selectedTokens = getSelectedTokens();
 if (selectedTokens === undefined || selectedTokens.length === 0) {
@@ -12,8 +12,8 @@ if (selectedTokens === undefined || selectedTokens.length === 0) {
 } else {
   selectedTokens.forEach((token) => {
     const actor = token.actor;
-    bless = isGuidanced(actor);
-    if (bless) {
+    effected = isEffected(actor);
+    if (effected) {
       const message = effectOff(token, actor);
       chatMessage(message);
     } else {
@@ -36,7 +36,7 @@ function getBounses(actor) {
   return retVal;
 }
 
-function isGuidanced(actor) {
+function isEffected(actor) {
   const bonuses = getBounses(actor);
   return (
     bonuses.skill.includes(d4) &&
@@ -45,7 +45,9 @@ function isGuidanced(actor) {
 }
 
 function effectOn(token, actor) {
-  token.toggleEffect(blessIconPath);
+  if(!token.data.effects.includes(iconPath)){
+    token.toggleEffect(iconPath);
+  }
   const bonuses = getBounses(actor);
 
   // anounce to chat
@@ -61,7 +63,9 @@ function effectOn(token, actor) {
 }
 
 function effectOff(token, actor) {
-  token.toggleEffect(blessIconPath);
+  if(token.data.effects.includes(iconPath)){
+    token.toggleEffect(iconPath);
+  }
   // anounce to chat
   const chatMsg = `${actor.name} ${effectOffMsg}`;
   // remove bless bonus
@@ -74,7 +78,6 @@ function effectOff(token, actor) {
 }
 
 function removeBonus(bonus){
-    // tmp = JSON.parse(JSON.stringify(actor.data.data.bonuses.abilities.save));
     const length = bonus.indexOf(d4);
     return bonus.substring(0, length) + bonus.substring(length + 4, bonus.length);
 }
