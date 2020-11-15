@@ -14,14 +14,11 @@ if (selectedTokens === undefined || selectedTokens.length === 0) {
     const actor = token.actor;
     bless = isBlessed(actor);
     // If not already bless
-    if (bless == false) {
-      // toggle bless icon
-      const message = bressOn(token, actor);
-      chatMessage(message);
-      // if already bless
-    } else {
-      // toggle bless icon
+    if (bless) {
       const message = bressOff(token, actor);
+      chatMessage(message);
+    } else {
+      const message = bressOn(token, actor);
       chatMessage(message);
     }
   });
