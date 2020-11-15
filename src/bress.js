@@ -11,7 +11,6 @@ if (selectedTokens === undefined || selectedTokens.length === 0) {
 } else {
   selectedTokens.forEach((token) => {
     const actor = token.actor;
-console.log(token.data.effects)    
     effected = isEffected(actor);
     // If not already bless
     if (effected) {
