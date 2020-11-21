@@ -26,19 +26,18 @@
     return;
   }
 
-  let monk = actor;
-  // let monk = actor.items.find(i => i.name === 'Monk' && i.type === 'class');
-  // if (!monk) {
-  //     ui.notifications.warn(errNoMonkToken);
-  //     return
-  // }
+  let monk = actor.items.find(i => i.name === 'モンク' && i.type === 'class');
+  if (!monk) {
+      ui.notifications.warn(errNoMonkToken);
+      return
+  }
 
   let monkLevels = monk.data.data.levels || 20;
   //let subClass = monk.data.data.subclass;
 
   if (monkLevels < 2) {
     ui.notifications.warn(
-      "You must have a least 2 Monk levels to use ki points."
+      "気ポイントを使うためには、モンクのLVが2以上必要です。"
     );
     return;
   }
@@ -89,7 +88,7 @@
         this.requireLevel > monkLevels
       ) {
         ui.notifications.warn(
-          `You need to have ${this.requireLevel} monk levels, you only have ${monkLevels}.`
+          `モンクのLVが${this.requireLevel} 以上必要です。あなたのモンクレベルは ${monkLevels}です.`
         );
         return;
       }
@@ -130,7 +129,7 @@
 
   const features = [
     new KiFeature(
-      "Ki: Flurry of Blows",
+      "Ki: 連打",
       `Immediately after you take the <b>Attack</b> action on your turn, you can spend 1 ki point to make two unarmed strikes as a bonus action. ${openHand}`,
       2,
       function () {
@@ -140,7 +139,6 @@
             o.data.name === "素手（モンク）" &&
             o.data.labels.activation === "ｱｸｼｮﾝ"
         );
-        console.log(strike)
         if (strike) {
           strike.roll();
           strike.roll();
